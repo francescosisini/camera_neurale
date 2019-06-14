@@ -44,23 +44,25 @@ void soglia_matrice(void* mat,size_t dim,size_t pixel_bytes,double sog)
 void punto_matrice(void* mat,size_t dim,size_t pixel_bytes,size_t* r,size_t* c)
 {
   unsigned short min=65535;
-  size_t i,j,cont=0;
+  size_t i,j;
   //cerco il massimo
   for(i=0;i<dim;i++)
     {
       for(j=0;j<dim;j++)
         {
-          cont++;
+          
           size_t pos=i*dim+j;
           if((*(unsigned short*)(mat+pos*pixel_bytes))<=min)
             {
-              min=(*(unsigned short*)(mat+pos*pixel_bytes));
+              min=(unsigned short)(*(unsigned short*)(mat+pos*pixel_bytes));
               *r=i;
               *c=j;
+             
+             
             }
         }
     }
-  printf("Punto matrice: %d, r:%d, c:%d, conteggi:%d",min,*r,*c,cont);
+  
   
 }
 
@@ -100,6 +102,38 @@ void scala_matrice(void * scalata,void * matrice, size_t pixel_bytes,size_t dim)
         }
     }
 }
+
+
+void LE_2_BE(void * mat,size_t dim)
+{
+ 
+  /**
+   * Crea una matrice quadrata delle dimesione dim/2 x dim/2 
+   * dimezzando prima le colonne poi le righe
+   */
+  
+  size_t r,c;
+  
+  for (r=0;r<dim;r++)
+    {
+      for (c=0;c<dim*2;c+=2)
+        {
+          size_t pos=r*(dim*2)+c;
+
+          char b1,b2;
+
+          b1=*((char *)mat+pos+1);
+
+          b2=*((char *)mat+pos);
+
+          *((char *)mat+pos+1)=b2;
+
+          *((char *)mat+pos)=b1;
+        }
+    }
+}
+
+
 
 
 void attiva_camera(char * video_dev_name)
@@ -239,13 +273,13 @@ int leggi_camera(double inp[])
 
   //soglia_matrice(mq,30,2,1);
 
+  LE_2_BE(mq,30);
+
   print_object((unsigned short*)mq,30, 30,5,90,"");
       
   /* coordiante del massimo */
   int r,c;
   punto_matrice(mq,30,2,&r,&c);
-
-  printf("CAZ CAZ: %d--> %d",r,c);
 
   int jpgfile;
   
@@ -286,9 +320,9 @@ void print_object(unsigned short x[],int r, int c,int R,int C,char *str)
             
           }
       }
-  printf("Print object; minimo in %d, %d",im,jm);
+  
   double i_range=max-min;
-  printf("range; %lf",i_range);
+  
   if(i_range==0)
     {
       i_range=1;
