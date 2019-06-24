@@ -8,6 +8,7 @@
 #include <sys/mman.h>
 #include <string.h>
 
+
 #define DIM_MAX 2400 //massima risuluzione video
 
 //Descrittore del file video /dev/video
@@ -18,6 +19,9 @@ struct v4l2_buffer bufferinfo;
 void* buffer_start;
 void* mq;
 void* mqs;
+
+
+
 
 /** azzera tutti i pixel della matrice che non hanno il valore massimo */
 
@@ -270,10 +274,10 @@ int leggi_camera(double inp[])
   
   /** immagine scalata */      
   scala_matrice(mq,mqs, 2,60);
-
+  
   //soglia_matrice(mq,30,2,1);
 
-  LE_2_BE(mq,30);
+  LE_2_BE(mq,60);
 
   print_object((unsigned short*)mq,30, 30,5,90,"");
       

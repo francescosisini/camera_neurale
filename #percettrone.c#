@@ -20,7 +20,7 @@ int classify_activation(double activation_value);
 
 /*Stampa a video il grafico dei punti della retta separante le classi*/
 void print_graph(double x,double y, int cls, double w[],char label[]);
-
+1
 void attiva_camera(char * video_dev_name);
 void vector_init(double res[VROWS],double val);
 int leggi_camera(double inp[]);

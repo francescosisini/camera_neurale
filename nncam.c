@@ -67,6 +67,35 @@ void scala_matrice(void * scalata,void * matrice, size_t pixel_bytes,size_t dim)
   
 }
 
+void LE_2_BE(void * mat,size_t dim)
+{
+ 
+  /**
+   * Crea una matrice quadrata delle dimesione dim/2 x dim/2 
+   * dimezzando prima le colonne poi le righe
+   */
+  
+  size_t r,c;
+  
+  for (r=0;r<dim;r++)
+    {
+      for (c=0;c<dim*2;c+=2)
+        {
+          size_t pos=r*(dim*2)+c;
+
+          char b1,b2;
+
+          b1=*((char *)mat+pos+1);
+
+          b2=*((char *)mat+pos);
+
+          *((char *)mat+pos+1)=b2;
+
+          *((char *)mat+pos)=b1;
+        }
+    }
+}
+
 
 
 int main(int argc, char*argv[]){
@@ -218,7 +247,8 @@ int main(int argc, char*argv[]){
   /** immagine scalata */      
   scala_matrice(mqs,mq, 2,120);
 
-  print_object((unsigned short*)mqs,60, 60,1,1,"coccolo");
+  LE_2_BE(mqs,60);
+  print_object((unsigned short*)mqs,60, 60,15,15,"coccolo");
   
    
   sprintf(fname,"/tmp/scal_nnc%d.yuv",i);
@@ -262,15 +292,23 @@ if(ioctl(fd, VIDIOC_STREAMOFF, &type) < 0){
 void print_object(unsigned short x[],int r, int c,int R,int C,char *str)
 {
   unsigned short min,max;
-  min=10000;
+  min=65535;
   max=0;
+  int im=-1,jm=-1;
   for(int i=0;i<r;i++)
     for(int j=0;j<c;j++)
       {
 	if(x[i*c+j]>max) max=x[i*c+j];
-	if(x[i*c+j]<min) min=x[i*c+j];
+	if(x[i*c+j]<min)
+          {
+            min=x[i*c+j];
+            im=i;jm=j;
+            
+          }
       }
+  
   double i_range=max-min;
+  
   if(i_range==0)
     {
       i_range=1;
@@ -286,8 +324,7 @@ void print_object(unsigned short x[],int r, int c,int R,int C,char *str)
       {
 	double gl;
 	gl=x[i*c+j];
-	int col=max_c-(min_c+(double)(gl-min)*conv)+min_c;
-	if(col<0)printf("%f",gl);
+	int col=(int)(min_c+(double)(gl-min)*conv);
 	printf("\x1b[%d;%dH\x1b[48;5;%dm  \x1b[0m",i+R,2*j+C,col);
       }
   fflush(stdout);
