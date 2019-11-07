@@ -1,0 +1,4 @@
+void attiva_camera(char * video_dev_name);
+void vector_init(double res[VROWS],double val);
+int leggi_camera(double inp[]);
+void chiudi_camera();
