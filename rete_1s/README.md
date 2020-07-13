@@ -5,8 +5,8 @@ Per eseguire l'esperimento di addestramento della rete neurale si deve prearare 
 - Posizionare il tag vicino alla retta
 - Posizionare la webcam in modo che inquadri il foglio di carta dall'alto (vedi figura)
 - Posizionare il **tag** sul foglio
-<img src="Setup.JPG" alt="drawing" width="200"/>
-<img src="RASE1011.JPG" alt="drawing" width="200"/>
+<img src="Setup.JPG" alt="drawing" width="50%"/>
+<img src="RASE1011.JPG" alt="drawing" width="50%"/>
 
 
 
