@@ -2,7 +2,7 @@
 Per eseguire l'esperimento di addestramento della rete neurale si deve prearare una piccola postazione sperimentale seguendo le istruzioni:
 - preparare un foglio di carta bianco con disegnata una retta a matita, o comunque con un segno leggero
 - Creare il **tag** colorando di nero un quadratino di 1 cm<sup>2</sup> circa (vedi figura)
-![Fig 1] {
+![Fig 1]{
   width: 70%;
   border: none;
   background: none;
