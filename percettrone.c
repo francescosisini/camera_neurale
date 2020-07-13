@@ -69,7 +69,7 @@ int main(int argc,char *argv[])
   printf("\x1b[2J");  
   /*Addestra il percettrone*/
   //printf("Addestramento Percettrone\n**********************\n");
-  for(int in=0;in<10;in++)
+  for(int in=0;in<20;in++)
     {
       getchar();
       printf("\x1b[2J");  
