@@ -1,1 +1,1 @@
-gcc -o perc_rt percettrone.c camera.c
+gcc -o rete_1s percettrone.c camera.c
